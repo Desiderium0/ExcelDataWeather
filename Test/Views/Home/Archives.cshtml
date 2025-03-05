@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Архив";
+}
+
+<header>
+    <h1>Просмотр архивов погодных условий в Москве</h1>
+</header>
+
+    <div class="container">
+    <form asp-controller="Home" asp-action="FilterData">
+        <h2>Архивы погодных условий:</h2>
+
+        <div class="filter-options">
+            <label for="month">Выберите месяц:</label>
+            <select id="month" name="month">
+                <option value="">Все месяцы</option>
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                }
+            </select>
+            <label for="year">Выберите год:</label>
+            <select id="year" name="year">
+                <option value="">Все года</option>
+                @foreach (var year in ViewBag.Years)
+                {
+                    <option value="@year">@year</option>
+                }
+            </select>
+            <button>Применить фильтры</button>
+        </div>
+    </form>
+    </div>
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время МСК</th>
+                <th>Температура (T)</th>
+                <th>Отн. влажность воздуха (%)</th>
+                <th>Точка росы</th>
+                <th>Атм. давление (мм рт.ст)</th>
+                <th>Направление ветра</th>
+                <th>Скорость ветра (м/с)</th>
+                <th>Облачность (%)</th>
+                <th>Нижняя граница облачности (h)</th>
+                <th>Горизонтальная видимость (VV)</th>
+                <th>Погодные явления</th>
+            </tr>
+        </thead>
+        <tbody id="weatherData">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Date.ToString("dd-MM-yyyy")</td>
+                    <td>@item.Time</td>
+                    <td>@item.Temperature</td>
+                    <td>@item.RelativeHumidity</td>
+                    <td>@item.DewPoint</td>
+                    <td>@item.AtmosphericPressure</td>
+                    <td>@item.WindDirection</td>
+                    <td>@item.WindSpeed</td>
+                    <td>@item.Cloudiness</td>
+                    <td>@item.CloudHeight</td>
+                    <td>@item.Visibility</td>
+                    <td>@item.WeatherPhenomena</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
